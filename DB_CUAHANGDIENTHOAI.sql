@@ -378,9 +378,19 @@ create table tb_ReviewDetail (
 	IdKhachHang int 
 )
 go
+------------------------------------Bảo Hành
 
+create table tb_Guarantee(
+GuaranteeId int IDENTITY(1,1) NOT NULL primary key ,
+CreatedBy nvarchar(max) NULL,
+	CreatedDate datetime NOT NULL,
+	ModifiedDate datetime ,
+	Modifeby nvarchar(max),
+	Status nvarchar(50),
+	OrderId int ,
 
-
+)
+go
 
 --====================================================================================FK============================================================
 
