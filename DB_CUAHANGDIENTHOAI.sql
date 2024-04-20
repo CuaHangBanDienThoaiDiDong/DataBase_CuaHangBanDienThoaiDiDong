@@ -148,15 +148,15 @@ create  TABLE tb_Staff(
 go
 
 
---Hinh anh Nhan vien
-Create table tb_StaffImage(
-	Id int IDENTITY(1,1) NOT NULL  primary key ,
-	Image nvarchar(max) NULL,
-	IsDefault bit NOT NULL,
-	NhanVienId int  NOT NULL,
+--Hinh anh Nhan vien dang lôi can fix loi
+--Create table tb_StaffImage(
+--	Id int IDENTITY(1,1) NOT NULL  primary key ,
+--	Image nvarchar(max) NULL,
+--	IsDefault bit NOT NULL,
+--	NhanVienId int  NOT NULL,
 	
-)
-go
+--)
+--go
 
 
 --Chuc Nang Nhân viên
@@ -378,19 +378,28 @@ create table tb_ReviewDetail (
 	IdKhachHang int 
 )
 go
-------------------------------------Bảo Hành
 
-create table tb_Guarantee(
-GuaranteeId int IDENTITY(1,1) NOT NULL primary key ,
-CreatedBy nvarchar(max) NULL,
-	CreatedDate datetime NOT NULL,
-	ModifiedDate datetime ,
-	Modifeby nvarchar(max),
-	Status nvarchar(50),
-	OrderId int ,
 
-)
-go
+-------------------------------------------------------------------------TRIGGER
+
+
+
+-- Tạo trigger khi khhách hàng đăng ký sẽ tạo luôn cart
+
+CREATE TRIGGER CreateCartOnInsertKhachHang
+ON tb_KhachHang
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Chèn dữ liệu mới vào bảng tb_Cart
+    INSERT INTO tb_Cart (IdKhachHang)
+    SELECT IdKhachHang
+    FROM inserted;
+END;
+
+
 
 --====================================================================================FK============================================================
 
@@ -447,10 +456,10 @@ foreign key (IdChucNang)
 references tb_Function
 
 
-alter table   tb_Staff
-add constraint StafftoImage
-foreign key (NhanVienId)
-references tb_StaffImage
+--alter table   tb_Staff
+--drop constraint StafftoImage
+--foreign key (NhanVienId)
+--references tb_StaffImage
 
 
 
