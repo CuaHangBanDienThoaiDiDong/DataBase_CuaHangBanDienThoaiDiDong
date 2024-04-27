@@ -1,7 +1,7 @@
-﻿create database CUAHANGDIENTHOAI
+﻿create database CUAHANGDIENTHOAI_test
 go
 
-use CUAHANGDIENTHOAI
+use CUAHANGDIENTHOAI_test
 go
 
 
@@ -54,24 +54,24 @@ create table tb_Products(
 	SeoTitle nvarchar(250),
 	SeoDescription nvarchar(250),
 	ProductCode nvarchar(50),
-	KichCo int ,
-	TocDoCPU nvarchar(900),
-	HeDieuHanh nvarchar(900),
-	TocDoGPU nvarchar(900),
-	MangDiDong nvarchar(900) ,
+	Screensize int ,--KichCo
+	CPUspeed nvarchar(900),--TocDoCPU
+	OperatingSystem nvarchar(900),--HeDieuHanh
+	GPUspeed nvarchar(900),--TocDoGPU
+	MobileNetwork nvarchar(900) ,--MangDiDong
 	Sim char(900) ,
 	Wifi  nvarchar(max) ,
 	GPS nvarchar(900),
 	Bluetooth char(900),
-	CongKetNoi nvarchar(900),
-	JackTaiNghe nvarchar(900),
-	LoaiPin char(900) ,
-	HoTroSac  nvarchar(900) ,
-	CongNghePin nvarchar(900) ,
+	Connector nvarchar(900),--CongKetNoi
+	Headphonejack nvarchar(900),--JackTaingeh
+	BatteryType char(900) ,--LoaiPin
+	ChargingSupport  nvarchar(900) ,--HoTroSac
+	BatteryTechnology nvarchar(900) ,--CongNghePin
 	Image nvarchar(900),
 	CPU nvarchar(100),
 	GPU nvarchar (100),
-	ManHinh char,
+	Screen char,--ManHinh
 	ProductCategoryId int,
 	ProductCompanyId int,
 	
@@ -88,9 +88,9 @@ create table tb_ProductDetail(
 	TypeProduct bit ,
 	
 	Image nvarchar(900),
-	DungLuongPin int ,
+	BatteryCapacity int ,--DungLuongPin
 	Ram int ,
-	DungLuong int ,
+	Capacity int ,--DungLuong
 	ProductsId int 
 )
 go
@@ -125,25 +125,25 @@ go
 -----------------------------------Nhan Viewn
 --Thông tin nhân viên
 create  TABLE tb_Staff(
-	NhanVienId int IDENTITY(1,1) NOT NULL  primary key ,
-	MSNV varchar(10) Not null,
-	SDT VARCHAR(15)  Not null,
-    TenNhanVien NVARCHAR(max) not null,
-	CCCD char(12)not null,
+	StaffId int IDENTITY(1,1) NOT NULL  primary key ,--NhanVienId
+	Code varchar(10) Not null,--MSNV
+	PhoneNumber VARCHAR(15)  Not null,--SDT
+    NameStaff NVARCHAR(max) not null,--TenNhanVien
+	CitizenIdentificationCard char(12)not null,--CCCD
     Email VARCHAR(100)not null,
     Password  varchar(100) not null,
 	Image nvarchar(250) null,
 	Birthday Date not null ,
-	DiaChi nvarchar(max)not null,
-	NgayVaoLam date ,
-	Luong decimal(18,2)NOT NULL,
-	GioiTinh nvarchar(7),
+	Location nvarchar(max)not null,--DiaChi
+	DayofWork date ,--NgayVaoLam
+	Wage decimal(18,2)NOT NULL,--Luong
+	Sex nvarchar(7),--GioiTinh
 	CreatedBy nvarchar(max) NULL,
 	CreatedDate datetime NOT NULL,
 	ModifiedBy nvarchar(max) NULL,
 	ModifiedDate datetime NOT NULL,
 	Clock bit,
-	IdChucNang int
+	FunctionId int--IDCHu chuc ngang
 )
 go
 
@@ -153,7 +153,7 @@ go
 --	Id int IDENTITY(1,1) NOT NULL  primary key ,
 --	Image nvarchar(max) NULL,
 --	IsDefault bit NOT NULL,
---	NhanVienId int  NOT NULL,
+--	StaffId int  NOT NULL,
 	
 --)
 --go
@@ -161,9 +161,9 @@ go
 
 --Chuc Nang Nhân viên
 create  table tb_Function (
-	IdChucNang int IDENTITY(1,1) NOT NULL primary key ,
-	TenChucNang nvarchar (max),
-	MaChucNang nvarchar(max),
+	FunctionId int IDENTITY(1,1) NOT NULL primary key ,--FunctionId
+	TitLe nvarchar (max),--TenChucNang
+	Alias nvarchar(max),
 	CreatedBy nvarchar(max) NULL,
 	CreatedDate datetime NOT NULL,
 	ModifiedDate datetime,
@@ -173,23 +173,23 @@ go
 
 --Quyen Hạng Nhân Viên
 create  table tb_Role (
- 	NhanVienId int Not null,
-	IdChucNang int Not null,
-	GhiChu nvarchar(max),
-	PRIMARY KEY(NhanVienId,IdChucNang)
+ 	StaffId int Not null,
+	FunctionId int Not null,
+	Note nvarchar(max),--GhiChu
+	PRIMARY KEY(StaffId,FunctionId)
 )
 go
 ------------------------------------Khách hàng
-create  TABLE tb_KhachHang (
-	IdKhachHang  int IDENTITY(1,1) NOT NULL primary key ,
-    SDT VARCHAR(15)null ,
-    TenKhachHang NVARCHAR(max) not null,
+create  TABLE tb_Customer (--tb_Customer
+	CustomerId  int IDENTITY(1,1) NOT NULL primary key ,--CustomerId
+    PhoneNumber VARCHAR(15)null ,--SDT
+    CustomerName NVARCHAR(max) not null,--TenKhachHang
     Email VARCHAR(100)null,
     Password  varchar(100) ,
 	Image nvarchar(250) null,
 	Birthday Date null ,
-	DiaChi nvarchar(max)null,
-	SoLanMua int, 
+	Loaction nvarchar(max)null,--DiaChi
+	NumberofPurchases int, --SoLanMua
 	Code char(10),
 	Clock bit
 )
@@ -200,7 +200,7 @@ go
 
 create table tb_Cart(
 	CartId int IDENTITY(1,1) NOT NULL primary key ,
-	IdKhachHang  int,
+	CustomerId  int,
 )
 go
 
@@ -233,13 +233,13 @@ create table tb_Order(
 	TypePayment int NOT NULL,
 	Email nvarchar(max) NULL,
 	
-	typeOrder bit,
+	typeOrder bit,--Loai Don hang(đon hàng đã xét duyệt chưa)
 	Confirm bit,
-	Status nvarchar(max),
-	typeReturn bit,
-	Success bit,
-	SuccessDate datetime,
-	IdKhachHang int 
+	Status nvarchar(max),--trang thai thanh toan
+	typeReturn bit,--neu true là đơn hàng trả 
+	Success bit,--trang thái đơn hàng (true khách đã nhận đưuọc hàng)
+	SuccessDate datetime,--Nếu Success ==true thì sẽ đây là ngày nhận hàng
+	CustomerId int 
 )
 go
 
@@ -250,7 +250,7 @@ create table tb_OrderDetail (
 	CartItem int,
 	DamagedProduct bit,
 	OrderId int ,
-	IdKhachHang int ,
+	CustomerId int ,
 	ProductDetailId int
 )
 go
@@ -266,10 +266,10 @@ create table tb_Store (
 	ModifiedDate datetime  NULL,
 	Modifiedby nvarchar(max) NULL,
 	Alias nvarchar(250)Null,
-	DiChi nvarchar(300),
+	Location nvarchar(300),--DiChi
 	City nvarchar(60),
 	District nvarchar(60),
-	IsStatus bit
+	IsStatus bit --Cua hàng còn đưuọc cấp phép hoạt động không
 )
 go
 
@@ -294,7 +294,7 @@ Create table tb_ImportWarehouse(------
 	CreateDate DateTime ,
 	ModifiedDate datetime ,
 	Modifeby nvarchar(max),
-	NhanVienId int,
+	StaffId int,
 	ProductDetailId int ,------
 	QuanTity int ,
 	WarehouseId int
@@ -311,7 +311,7 @@ create table tb_ExportWareHouse(
 	CreatedDate datetime NOT NULL,
 	ModifiedDate datetime ,
 	Modifeby nvarchar(max),
-	NhanVienId int,
+	StaffId int,
 	OrderId int,
 	WarehouseId int 
 )
@@ -324,7 +324,7 @@ create table tb_Return (
 	CreatedDate datetime,
 	Confirm bit ,
 	OrderId int ,
-	IdKhachHang int,
+	CustomerId int,
 	Satus nvarchar(max)
 )
 
@@ -342,7 +342,7 @@ go
 create table tb_Voucher (
 	VoucherId int IDENTITY(1,1) NOT NULL primary key ,
 	Code char(30),
-	PhanTramGiam int , 
+	PercentPriceReduction int , --PhanTramGiam
 	Title nvarchar(250),
 	CreatedBy nvarchar(max) NULL,
 	CreatedDate datetime NOT NULL,
@@ -375,7 +375,7 @@ create table tb_ReviewDetail (
 	Modifeby nvarchar(max),
 	Content nvarchar (350),
 	ReviewId int,
-	IdKhachHang int 
+	CustomerId int 
 )
 go
 
@@ -387,15 +387,15 @@ go
 -- Tạo trigger khi khhách hàng đăng ký sẽ tạo luôn cart
 
 CREATE TRIGGER CreateCartOnInsertKhachHang
-ON tb_KhachHang
+ON tb_Customer
 AFTER INSERT
 AS
 BEGIN
     SET NOCOUNT ON;
 
     -- Chèn dữ liệu mới vào bảng tb_Cart
-    INSERT INTO tb_Cart (IdKhachHang)
-    SELECT IdKhachHang
+    INSERT INTO tb_Cart (CustomerId)
+    SELECT CustomerId
     FROM inserted;
 END;
 
@@ -441,24 +441,24 @@ references tb_ProductDetail
 
 alter table tb_Role
 add constraint RoletoStaff
-foreign key (NhanVienId)
+foreign key (StaffId)
 references tb_Staff 
 
 alter table tb_Role
 add constraint RoletoFunction
-foreign key (IdChucNang)
+foreign key (FunctionId)
 references tb_Function 
 
 
 alter table   tb_Staff
 add constraint StafftoFunction
-foreign key (IdChucNang)
+foreign key (FunctionId)
 references tb_Function
 
 
 --alter table   tb_Staff
 --drop constraint StafftoImage
---foreign key (NhanVienId)
+--foreign key (StaffId)
 --references tb_StaffImage
 
 
@@ -467,8 +467,8 @@ references tb_Function
 
 alter table tb_Cart
 add constraint GioHangtoKhachHang
-foreign key (IdKhachHang)
-references tb_KhachHang 
+foreign key (CustomerId)
+references tb_Customer 
 
 
  alter table tb_CartItem
@@ -494,8 +494,8 @@ references tb_Order
 
 alter table tb_OrderDetail
 add constraint OrderDetailtKhachHang
-foreign key (IdKhachHang)
-references tb_KhachHang
+foreign key (CustomerId)
+references tb_Customer
 
 
 
@@ -521,7 +521,7 @@ references tb_WareHouse
 
 alter table tb_ExportWareHouse
 add constraint ExportWareHousetoStaff
-foreign key (NhanVienId)
+foreign key (StaffId)
 references tb_Staff
 
 alter table  tb_Warehouse
@@ -545,7 +545,7 @@ references tb_ProductDetail
 
 alter table  tb_ImportWarehouse
 add constraint ImportWarehouseToStaff
-foreign key (NhanVienId)
+foreign key (StaffId)
 references tb_Staff
 
 
@@ -571,8 +571,8 @@ references tb_Order
 
 alter table tb_Return
 add constraint ReturntoKhachHang
-foreign key (IdKhachHang)
-references tb_KhachHang
+foreign key (CustomerId)
+references tb_Customer
 
 ------------------ FK_Voucher
 
@@ -591,8 +591,8 @@ references tb_Review
 
 alter table tb_ReviewDetail
 add constraint ReviewDetailtoKhachHang
-foreign key (IdKhachHang)
-references tb_KhachHang
+foreign key (CustomerId)
+references tb_Customer
 
 alter table tb_Review
 add constraint ReviewDetailtoProductDetai
