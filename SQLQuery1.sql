@@ -37,7 +37,7 @@ GROUP BY Capacity
 
 select Price , PriceSale from tb_ProductDetail where Color='Xám'and Capacity ='256' and ProductsId = 3
 
-select * from tb_ProductDetail where Color='Titan xanh'and Capacity ='1000' and ProductsId = 1
+select Color , ProductDetailId,Price from tb_ProductDetail where Capacity =10000 and ProductsId = 1
 
 
 
