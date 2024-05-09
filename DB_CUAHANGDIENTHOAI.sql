@@ -1,7 +1,7 @@
-﻿create database CUAHANGDIENTHOAI_test
+﻿create database CUAHANGDIENTHOAI
 go
 
-use CUAHANGDIENTHOAI_test
+use CUAHANGDIENTHOAI
 go
 
 
