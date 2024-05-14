@@ -72,6 +72,7 @@ create table tb_Products(
 	CPU nvarchar(100),
 	GPU nvarchar (100),
 	Screen char,--ManHinh
+		BatteryCapacity int ,--DungLuongPin
 	ProductCategoryId int,
 	ProductCompanyId int,
 	
@@ -88,7 +89,7 @@ create table tb_ProductDetail(
 	TypeProduct bit ,
 	
 	Image nvarchar(900),
-	BatteryCapacity int ,--DungLuongPin
+
 	Ram int ,
 	Capacity int ,--DungLuong
 	ProductsId int 
